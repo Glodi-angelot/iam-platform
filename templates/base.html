@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}IAM Platform{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Plateforme IAM</h1>
+        <nav>
+            <a href="/dashboard/">Dashboard</a>
+            <a href="/users/">Utilisateurs</a>
+            <a href="/roles/">Rôles</a>
+            <a href="/logs/">Logs</a>
+            <a href="/kibana/">Kibana</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
