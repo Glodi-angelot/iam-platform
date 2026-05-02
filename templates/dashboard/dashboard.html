@@ -1,8 +1,64 @@
-{% extends "base.html" %}
-
-{% block title %}Dashboard{% endblock %}
+{% extends 'base.html' %}
 
 {% block content %}
-<h2>Dashboard</h2>
-<p>Tableau de bord principal.</p>
+
+<div class="mb-5">
+    <a href="/" class="btn btn-outline-dark rounded-pill mb-4">
+        <i class="bi bi-arrow-left"></i> Retour à l’accueil
+    </a>
+
+    <h1 class="page-title">Tableau de bord IAM</h1>
+    <p class="text-muted">
+        Gestion centralisée des utilisateurs, rôles, journaux d’audit et supervision Kibana.
+    </p>
+</div>
+
+<div class="row g-4">
+
+    <div class="col-12 col-sm-6 col-lg-3">
+        <div class="iam-card h-100">
+            <div class="icon-box bg-blue">
+                <i class="bi bi-people-fill"></i>
+            </div>
+            <h4>Utilisateurs</h4>
+            <p class="text-muted">Créer, consulter et gérer les comptes.</p>
+            <a href="/users/" class="btn btn-primary btn-rounded w-100">Gérer</a>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-3">
+        <div class="iam-card h-100">
+            <div class="icon-box bg-yellow">
+                <i class="bi bi-person-badge-fill"></i>
+            </div>
+            <h4>Rôles</h4>
+            <p class="text-muted">Définir les droits et permissions.</p>
+            <a href="/roles/" class="btn btn-warning btn-rounded w-100">Gérer</a>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-3">
+        <div class="iam-card h-100">
+            <div class="icon-box bg-green">
+                <i class="bi bi-journal-text"></i>
+            </div>
+            <h4>Logs</h4>
+            <p class="text-muted">Consulter les événements d’audit.</p>
+            <a href="/logs/" class="btn btn-success btn-rounded w-100">Voir</a>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-3">
+        <div class="iam-card h-100">
+            <div class="icon-box bg-darkblue">
+                <i class="bi bi-bar-chart-line-fill"></i>
+            </div>
+            <h4>Kibana</h4>
+            <p class="text-muted">Analyser les activités de sécurité.</p>
+            <a href="/kibana/" class="btn btn-dark btn-rounded w-100">Accéder</a>
+        </div>
+    </div>
+
+</div>
+
 {% endblock %}

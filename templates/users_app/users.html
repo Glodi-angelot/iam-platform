@@ -1,8 +1,276 @@
-{% extends "base.html" %}
-
-{% block title %}Utilisateurs{% endblock %}
+{% extends 'base.html' %}
 
 {% block content %}
-<h2>Gestion des utilisateurs</h2>
-<p>Page utilisateurs en attente.</p>
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div>
+        <h1 class="page-title mb-2">Gestion des utilisateurs</h1>
+        <p class="text-muted mb-0">Liste, recherche et administration des comptes IAM.</p>
+    </div>
+
+    <a href="/users/create/" class="btn btn-primary rounded-pill px-4">
+        <i class="bi bi-person-plus-fill"></i> Créer un utilisateur
+    </a>
+</div>
+
+<div class="iam-card mb-4">
+    <div class="row g-3 align-items-center">
+        <div class="col-12 col-md-8">
+            <div class="input-group input-group-lg">
+                <span class="input-group-text bg-white">
+                    <i class="bi bi-search"></i>
+                </span>
+                <input
+                    type="text"
+                    id="userSearch"
+                    class="form-control"
+                    placeholder="Rechercher par nom, email, rôle, statut..."
+                >
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4 text-md-end">
+            <span class="badge bg-dark rounded-pill px-3 py-2">
+                <i class="bi bi-people-fill"></i>
+                {{ users|length }} utilisateur(s)
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="iam-card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle" id="usersTable">
+            <thead>
+                <tr>
+                    <th>Utilisateur</th>
+                    <th>Email</th>
+                    <th>Rôle</th>
+                    <th>Staff</th>
+                    <th>Actif</th>
+                    <th>Date création</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for u in users %}
+                <tr class="user-row">
+                    <td data-label="Utilisateur">
+                        <div class="user-mini">
+                            <div class="user-avatar">
+                                {{ u.username|first|upper }}
+                            </div>
+                            <div>
+                                <strong>{{ u.username }}</strong>
+                                <small>ID #{{ u.id }}</small>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td data-label="Email">{{ u.email|default:"-" }}</td>
+
+                    <td data-label="Rôle">
+                        {% if u.profile.role %}
+                            <span class="badge bg-dark">{{ u.profile.role.name }}</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Aucun rôle</span>
+                        {% endif %}
+                    </td>
+
+                    <td data-label="Staff">
+                        {% if u.is_staff %}
+                            <span class="badge bg-success">Oui</span>
+                        {% else %}
+                            <span class="badge bg-light text-dark">Non</span>
+                        {% endif %}
+                    </td>
+
+                    <td data-label="Actif">
+                        {% if u.is_active %}
+                            <span class="badge bg-success">Actif</span>
+                        {% else %}
+                            <span class="badge bg-danger">Bloqué</span>
+                        {% endif %}
+                    </td>
+
+                    <td data-label="Date création">{{ u.date_joined|date:"d/m/Y H:i" }}</td>
+
+                    <td data-label="Actions" class="text-end">
+                        <a href="{% url 'delete_user' u.id %}"
+                           class="btn btn-danger btn-sm rounded-pill delete-confirm"
+                           data-username="{{ u.username }}">
+                            <i class="bi bi-trash"></i>
+                            <span class="d-none d-md-inline">Supprimer</span>
+                        </a>
+                        <a href="{% url 'edit_user' u.id %}"
+                            class="btn btn-warning btn-sm rounded-pill me-2">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                    </td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-4">
+                        Aucun utilisateur trouvé.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <p id="noUserResult" class="text-center text-muted py-4 d-none">
+            Aucun utilisateur ne correspond à votre recherche.
+        </p>
+    </div>
+</div>
+
+<style>
+    .input-group-text {
+        border-radius: 18px 0 0 18px;
+        border-color: #e2e8f0;
+    }
+
+    #userSearch {
+        border-radius: 0 18px 18px 0;
+        border-color: #e2e8f0;
+    }
+
+    #userSearch:focus {
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+        border-color: #2563eb;
+    }
+
+    #usersTable th {
+        white-space: nowrap;
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    #usersTable td {
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    .user-mini {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .user-avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #2563eb, #0f172a);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        box-shadow: 0 10px 22px rgba(37, 99, 235, 0.2);
+    }
+
+    .user-mini small {
+        display: block;
+        color: #64748b;
+        font-size: 0.8rem;
+        margin-top: 2px;
+    }
+
+    @media (max-width: 768px) {
+        #usersTable thead {
+            display: none;
+        }
+
+        #usersTable,
+        #usersTable tbody,
+        #usersTable tr,
+        #usersTable td {
+            display: block;
+            width: 100%;
+        }
+
+        #usersTable tr {
+            margin-bottom: 16px;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            background: #ffffff;
+            box-shadow: 0 12px 25px rgba(15, 23, 42, 0.08);
+        }
+
+        #usersTable td {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+            white-space: normal;
+            text-align: right;
+        }
+
+        #usersTable td:last-child {
+            border-bottom: none;
+        }
+
+        #usersTable td::before {
+            content: attr(data-label);
+            font-weight: 800;
+            color: #0f172a;
+            text-align: left;
+        }
+
+        #usersTable td[data-label="Utilisateur"] {
+            display: block;
+            text-align: left;
+        }
+
+        #usersTable td[data-label="Utilisateur"]::before {
+            display: none;
+        }
+
+        #usersTable td[data-label="Actions"] {
+            display: block;
+            text-align: left !important;
+        }
+
+        #usersTable td[data-label="Actions"] .btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("userSearch");
+        const rows = document.querySelectorAll(".user-row");
+        const noResult = document.getElementById("noUserResult");
+
+        if (!searchInput) return;
+
+        searchInput.addEventListener("input", function () {
+            const query = this.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            rows.forEach(function (row) {
+                const text = row.innerText.toLowerCase();
+                const match = text.includes(query);
+
+                row.style.display = match ? "" : "none";
+
+                if (match) {
+                    visibleCount++;
+                }
+            });
+
+            if (noResult) {
+                noResult.classList.toggle("d-none", visibleCount !== 0);
+            }
+        });
+    });
+</script>
+
 {% endblock %}

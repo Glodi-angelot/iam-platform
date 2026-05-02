@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-8 col-xl-7">
+
+        <a href="/users/" class="btn btn-outline-dark rounded-pill mb-4">
+            <i class="bi bi-arrow-left"></i> Retour aux utilisateurs
+        </a>
+
+        <div class="iam-card create-user-card">
+
+            <div class="create-user-header mb-4">
+                <div class="create-user-icon">
+                    <i class="bi bi-person-plus-fill"></i>
+                </div>
+
+                <div>
+                    <h1 class="page-title mb-2">Créer un utilisateur</h1>
+                    <p class="text-muted mb-0">
+                        Ajout d’un nouveau compte IAM avec attribution de rôle.
+                    </p>
+                </div>
+            </div>
+
+            <div class="alert alert-primary border-0 rounded-4 mb-4">
+                <i class="bi bi-info-circle-fill"></i>
+                Cette action sera enregistrée dans les journaux d’audit.
+            </div>
+
+            <form method="POST" class="create-user-form">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label">Nom d’utilisateur</label>
+                    <div class="input-icon">
+                        <i class="bi bi-person"></i>
+                        <input 
+                            type="text" 
+                            name="username" 
+                            class="form-control form-control-lg" 
+                            placeholder="Ex : jean_admin"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Adresse email</label>
+                    <div class="input-icon">
+                        <i class="bi bi-envelope"></i>
+                        <input 
+                            type="email" 
+                            name="email" 
+                            class="form-control form-control-lg" 
+                            placeholder="Ex : jean@example.com"
+                        >
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Mot de passe</label>
+                    <div class="input-icon">
+                        <i class="bi bi-lock"></i>
+                        <input 
+                            type="password" 
+                            name="password" 
+                            id="passwordInput"
+                            class="form-control form-control-lg" 
+                            placeholder="Mot de passe sécurisé"
+                            required
+                        >
+
+                        <button type="button" class="password-eye" id="togglePassword">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Rôle</label>
+                    <div class="input-icon">
+                        <i class="bi bi-person-badge"></i>
+                        <select name="role" class="form-select form-select-lg" required>
+                            {% for role in roles %}
+                                <option value="{{ role.id }}">{{ role.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                    <small class="text-muted">
+                        <i class="bi bi-shield-check"></i>
+                        Les permissions dépendront du rôle attribué.
+                    </small>
+
+                    <button type="submit" class="btn btn-primary btn-lg rounded-pill px-4">
+                        <i class="bi bi-check-circle"></i> Créer le compte
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .create-user-card {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .create-user-card::before {
+        content: "";
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 6px;
+        background: linear-gradient(90deg, #2563eb, #0f172a, #16a34a);
+    }
+
+    .create-user-header {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+    }
+
+    .create-user-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 22px;
+        background: linear-gradient(135deg, #2563eb, #0f172a);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        box-shadow: 0 18px 35px rgba(37, 99, 235, 0.25);
+        flex: 0 0 auto;
+    }
+
+    .create-user-form .form-label {
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    .input-icon {
+        position: relative;
+    }
+
+    .input-icon > i {
+        position: absolute;
+        top: 50%;
+        left: 18px;
+        transform: translateY(-50%);
+        color: #64748b;
+        font-size: 18px;
+        z-index: 2;
+    }
+
+    .input-icon .form-control,
+    .input-icon .form-select {
+        padding-left: 52px;
+        border-radius: 18px;
+        border-color: #e2e8f0;
+        min-height: 56px;
+    }
+
+    .input-icon .form-control:focus,
+    .input-icon .form-select:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+
+    .password-eye {
+        position: absolute;
+        top: 50%;
+        right: 12px;
+        transform: translateY(-50%);
+        width: 42px;
+        height: 42px;
+        border: none;
+        border-radius: 50%;
+        background: transparent;
+        color: #64748b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .password-eye:hover {
+        background: #f1f5f9;
+        color: #0f172a;
+    }
+
+    #passwordInput {
+        padding-right: 58px;
+    }
+
+    @media (max-width: 576px) {
+        .create-user-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .create-user-icon {
+            width: 62px;
+            height: 62px;
+            font-size: 28px;
+        }
+
+        .create-user-form button[type="submit"] {
+            width: 100%;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const passwordInput = document.getElementById("passwordInput");
+        const togglePassword = document.getElementById("togglePassword");
+
+        if (passwordInput && togglePassword) {
+            togglePassword.addEventListener("click", function () {
+                const hidden = passwordInput.getAttribute("type") === "password";
+                passwordInput.setAttribute("type", hidden ? "text" : "password");
+
+                const icon = togglePassword.querySelector("i");
+                if (icon) {
+                    icon.className = hidden ? "bi bi-eye-slash" : "bi bi-eye";
+                }
+            });
+        }
+    });
+</script>
+
+{% endblock %}

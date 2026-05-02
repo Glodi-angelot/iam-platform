@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+
+        <div class="iam-card profile-card-iam">
+
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    {{ user.username|first|upper }}
+                </div>
+
+                <div>
+                    <h1 class="page-title mb-1">Mon profil</h1>
+                    <p class="text-muted mb-0">Informations liées à votre compte IAM.</p>
+                </div>
+            </div>
+
+            <div class="profile-info-grid mt-4">
+
+                <div class="profile-info">
+                    <span>Nom d’utilisateur</span>
+                    <strong>{{ user.username }}</strong>
+                </div>
+
+                <div class="profile-info">
+                    <span>Email</span>
+                    <strong>{{ user.email|default:"Non renseigné" }}</strong>
+                </div>
+
+                <div class="profile-info">
+                    <span>Rôle</span>
+                    {% if profile.role %}
+                        <strong>{{ profile.role.name }}</strong>
+                    {% else %}
+                        <strong>Aucun rôle</strong>
+                    {% endif %}
+                </div>
+
+                <div class="profile-info">
+                    <span>Statut</span>
+                    {% if user.is_active %}
+                        <strong class="text-success">Actif</strong>
+                    {% else %}
+                        <strong class="text-danger">Bloqué</strong>
+                    {% endif %}
+                </div>
+
+                <div class="profile-info">
+                    <span>Staff</span>
+                    {% if user.is_staff %}
+                        <strong>Oui</strong>
+                    {% else %}
+                        <strong>Non</strong>
+                    {% endif %}
+                </div>
+
+                <div class="profile-info">
+                    <span>Date de création</span>
+                    <strong>{{ user.date_joined|date:"d/m/Y H:i" }}</strong>
+                </div>
+
+                <div class="profile-info">
+                    <span>Dernière connexion</span>
+                    <strong>{{ user.last_login|date:"d/m/Y H:i"|default:"Jamais" }}</strong>
+                </div>
+
+            </div>
+
+            <div class="mt-4 d-flex gap-3 flex-wrap">
+                <a href="/" class="btn btn-outline-dark rounded-pill px-4">
+                    <i class="bi bi-house-door"></i> Accueil
+                </a>
+
+                {% if profile.role and profile.role.name != "USER" %}
+                    <a href="/dashboard/" class="btn btn-primary rounded-pill px-4">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .profile-card-iam {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .profile-card-iam::before {
+        content: "";
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 6px;
+        background: linear-gradient(90deg, #2563eb, #0f172a, #16a34a);
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+    }
+
+    .profile-avatar {
+        width: 82px;
+        height: 82px;
+        border-radius: 26px;
+        background: linear-gradient(135deg, #2563eb, #0f172a);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 36px;
+        font-weight: 900;
+        box-shadow: 0 18px 35px rgba(37, 99, 235, 0.25);
+    }
+
+    .profile-info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .profile-info {
+        padding: 18px;
+        border-radius: 18px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+    }
+
+    .profile-info span {
+        display: block;
+        color: #64748b;
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .profile-info strong {
+        color: #0f172a;
+        font-size: 16px;
+    }
+
+    @media (max-width: 768px) {
+        .profile-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .profile-info-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+{% endblock %}

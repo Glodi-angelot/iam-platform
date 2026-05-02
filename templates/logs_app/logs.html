@@ -1,8 +1,197 @@
-{% extends "base.html" %}
-
-{% block title %}Logs{% endblock %}
+{% extends 'base.html' %}
 
 {% block content %}
-<h2>Journaux</h2>
-<p>Page des logs en attente.</p>
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div>
+        <h1 class="page-title mb-2">Journaux d’audit</h1>
+        <p class="text-muted mb-0">
+            Consultez les événements de sécurité générés par la plateforme IAM.
+        </p>
+    </div>
+
+    <a href="/dashboard/" class="btn btn-outline-dark rounded-pill px-4">
+        <i class="bi bi-arrow-left"></i> Dashboard
+    </a>
+</div>
+
+<div class="iam-card mb-4">
+    <div class="row g-3 align-items-center">
+        <div class="col-12 col-md-8">
+            <div class="input-group input-group-lg">
+                <span class="input-group-text bg-white">
+                    <i class="bi bi-search"></i>
+                </span>
+                <input 
+                    type="text" 
+                    id="logSearch" 
+                    class="form-control" 
+                    placeholder="Rechercher par utilisateur, action, ressource, IP ou statut..."
+                >
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4 text-md-end">
+            <span class="badge bg-dark rounded-pill px-3 py-2">
+                <i class="bi bi-journal-text"></i>
+                {{ logs|length }} événement(s)
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="iam-card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle" id="logsTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Utilisateur</th>
+                    <th>Action</th>
+                    <th>Ressource</th>
+                    <th>IP</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for log in logs %}
+                <tr class="log-row">
+                    <td data-label="Date">{{ log.created_at|date:"d/m/Y H:i:s" }}</td>
+                    <td data-label="Utilisateur">
+                        <strong>{{ log.username|default:"Anonyme" }}</strong>
+                    </td>
+                    <td data-label="Action">
+                        <span class="badge bg-light text-dark">{{ log.action }}</span>
+                    </td>
+                    <td data-label="Ressource">{{ log.resource }}</td>
+                    <td data-label="IP">{{ log.ip_address|default:"-" }}</td>
+                    <td data-label="Statut">
+                        {% if log.status == "SUCCESS" %}
+                            <span class="badge bg-success">Succès</span>
+                        {% elif log.status == "FAILED" %}
+                            <span class="badge bg-danger">Échec</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark">Refusé</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted py-4">
+                        Aucun journal trouvé.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <p id="noLogResult" class="text-center text-muted py-4 d-none">
+            Aucun résultat ne correspond à votre recherche.
+        </p>
+    </div>
+</div>
+
+<style>
+    .input-group-text {
+        border-radius: 18px 0 0 18px;
+        border-color: #e2e8f0;
+    }
+
+    #logSearch {
+        border-radius: 0 18px 18px 0;
+        border-color: #e2e8f0;
+    }
+
+    #logSearch:focus {
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+        border-color: #2563eb;
+    }
+
+    #logsTable th {
+        white-space: nowrap;
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    #logsTable td {
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    @media (max-width: 768px) {
+        #logsTable thead {
+            display: none;
+        }
+
+        #logsTable,
+        #logsTable tbody,
+        #logsTable tr,
+        #logsTable td {
+            display: block;
+            width: 100%;
+        }
+
+        #logsTable tr {
+            margin-bottom: 16px;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            background: #ffffff;
+            box-shadow: 0 12px 25px rgba(15, 23, 42, 0.08);
+        }
+
+        #logsTable td {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+            white-space: normal;
+            text-align: right;
+        }
+
+        #logsTable td:last-child {
+            border-bottom: none;
+        }
+
+        #logsTable td::before {
+            content: attr(data-label);
+            font-weight: 800;
+            color: #0f172a;
+            text-align: left;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("logSearch");
+        const rows = document.querySelectorAll(".log-row");
+        const noResult = document.getElementById("noLogResult");
+
+        if (!searchInput) return;
+
+        searchInput.addEventListener("input", function () {
+            const query = this.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            rows.forEach(function (row) {
+                const text = row.innerText.toLowerCase();
+                const match = text.includes(query);
+
+                row.style.display = match ? "" : "none";
+
+                if (match) {
+                    visibleCount++;
+                }
+            });
+
+            if (noResult) {
+                noResult.classList.toggle("d-none", visibleCount !== 0);
+            }
+        });
+    });
+</script>
+
 {% endblock %}

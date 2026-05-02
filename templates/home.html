@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="py-5">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <span class="badge bg-primary px-3 py-2 mb-3">
+                <i class="bi bi-shield-check"></i> Plateforme IAM sécurisée
+            </span>
+
+            <h1 class="display-5 fw-bold text-dark">
+                Gérez les identités, les accès et les journaux de sécurité.
+            </h1>
+
+            <p class="lead text-muted mt-3">
+                Cette plateforme permet de contrôler les utilisateurs, les rôles,
+                les permissions et les événements d’audit avant leur analyse dans Kibana.
+            </p>
+
+            <div class="mt-4">
+                <a href="/login/" class="btn btn-primary btn-lg rounded-pill px-4">
+                    <i class="bi bi-box-arrow-in-right"></i> Se connecter
+                </a>
+
+                <a href="/dashboard/" class="btn btn-outline-dark btn-lg rounded-pill px-4 ms-2">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-6 mt-5 mt-md-0">
+            <div class="iam-card text-center">
+                <i class="bi bi-shield-lock-fill" style="font-size: 90px; color: #2563eb;"></i>
+                <h3 class="mt-4 fw-bold">IAM Security Center</h3>
+                <p class="text-muted">
+                    Authentification, rôles, audit, logs et supervision.
+                </p>
+
+                <div class="row mt-4">
+                    <div class="col-4">
+                        <i class="bi bi-people-fill fs-1 text-primary"></i>
+                        <p class="small mt-2">Utilisateurs</p>
+                    </div>
+                    <div class="col-4">
+                        <i class="bi bi-person-badge-fill fs-1 text-warning"></i>
+                        <p class="small mt-2">Rôles</p>
+                    </div>
+                    <div class="col-4">
+                        <i class="bi bi-bar-chart-line-fill fs-1 text-success"></i>
+                        <p class="small mt-2">Kibana</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="row g-4 mt-4">
+    <div class="col-md-4">
+        <div class="iam-card h-100">
+            <div class="icon-box bg-blue">
+                <i class="bi bi-person-lock"></i>
+            </div>
+            <h4>Contrôle d’accès</h4>
+            <p class="text-muted">Chaque utilisateur accède uniquement aux pages autorisées selon son rôle.</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="iam-card h-100">
+            <div class="icon-box bg-green">
+                <i class="bi bi-journal-check"></i>
+            </div>
+            <h4>Journalisation</h4>
+            <p class="text-muted">Les connexions, échecs et accès refusés sont enregistrés dans les logs.</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="iam-card h-100">
+            <div class="icon-box bg-darkblue">
+                <i class="bi bi-graph-up-arrow"></i>
+            </div>
+            <h4>Analyse Kibana</h4>
+            <p class="text-muted">Les événements seront envoyés vers Elasticsearch pour analyse dans Kibana.</p>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
