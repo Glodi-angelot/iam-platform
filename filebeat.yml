@@ -1,0 +1,19 @@
+filebeat.inputs:
+  - type: filestream
+    id: iam-audit-logs
+    enabled: true
+    paths:
+      - /app/logs/iam_audit.log
+    parsers:
+      - ndjson:
+          target: ""
+          overwrite_keys: true
+          add_error_key: true
+
+output.elasticsearch:
+  hosts: ["http://iam_elasticsearch:9200"]
+  index: "iam-audit-%{+yyyy.MM.dd}"
+
+setup.template.name: "iam-audit"
+setup.template.pattern: "iam-audit-*"
+setup.ilm.enabled: false
