@@ -8,40 +8,59 @@
 <style>
     .about-section {
         min-height: 80vh;
-        padding: 60px 8%;
+        padding: clamp(25px, 5vw, 60px) 6%;
         background: linear-gradient(135deg, #eef4ff, #f8fafc);
+        overflow-x: hidden;
     }
 
     .about-card {
+        width: 100%;
         max-width: 1100px;
         margin: auto;
-        background: white;
+        background: #ffffff;
         border-radius: 24px;
-        padding: 40px;
+        padding: clamp(22px, 4vw, 40px);
         box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
         border: 1px solid #e2e8f0;
     }
 
     .about-header {
         text-align: center;
-        margin-bottom: 35px;
+        margin-bottom: 30px;
     }
 
     .about-header i {
-        font-size: 48px;
+        font-size: clamp(36px, 8vw, 48px);
         color: #2563eb;
-        margin-bottom: 15px;
+        margin-bottom: 14px;
     }
 
     .about-header h1 {
-        font-size: 42px;
+        font-size: clamp(28px, 7vw, 42px);
         color: #0f172a;
         margin-bottom: 10px;
+        font-weight: 800;
     }
 
     .about-header p {
         color: #64748b;
-        font-size: 18px;
+        font-size: clamp(14px, 3.8vw, 18px);
+        line-height: 1.6;
+        max-width: 750px;
+        margin: 0 auto 12px;
+    }
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #2563eb;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 50px;
+        font-weight: 700;
+        margin-top: 10px;
+        font-size: 14px;
     }
 
     .info-grid {
@@ -56,38 +75,56 @@
         border-radius: 16px;
         padding: 22px;
         border: 1px solid #e2e8f0;
+        min-width: 0;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
 
     .info-box h3 {
         color: #0f172a;
         margin-bottom: 12px;
-        font-size: 20px;
+        font-size: clamp(17px, 4vw, 20px);
+        font-weight: 800;
+    }
+
+    .info-box h3 i {
+        color: #2563eb;
+        margin-right: 8px;
     }
 
     .info-box p,
     .info-box li {
         color: #475569;
         line-height: 1.7;
+        font-size: clamp(14px, 3.6vw, 16px);
     }
 
     .info-box ul {
-        padding-left: 20px;
+        padding-left: 18px;
         margin: 0;
     }
 
-    .badge {
-        display: inline-block;
-        background: #2563eb;
-        color: white;
-        padding: 8px 14px;
-        border-radius: 50px;
-        font-weight: 700;
-        margin-top: 10px;
+    code {
+        background: #e2e8f0;
+        color: #0f172a;
+        padding: 3px 7px;
+        border-radius: 6px;
+        font-size: 14px;
+        word-break: break-word;
+    }
+
+    .demo-account {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 14px;
+        margin-bottom: 12px;
     }
 
     .github-link {
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 10px;
         margin-top: 15px;
         padding: 12px 20px;
@@ -96,10 +133,47 @@
         text-decoration: none;
         border-radius: 12px;
         font-weight: 700;
+        max-width: 100%;
+        text-align: center;
     }
 
     .github-link:hover {
         background: #1e293b;
+        color: white;
+    }
+
+    @media (max-width: 600px) {
+        .about-section {
+            padding: 20px 12px;
+        }
+
+        .about-card {
+            border-radius: 18px;
+            padding: 18px;
+        }
+
+        .info-grid {
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .info-box {
+            padding: 18px;
+        }
+
+        .github-link {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 380px) {
+        .about-card {
+            padding: 14px;
+        }
+
+        .info-box {
+            padding: 15px;
+        }
     }
 </style>
 
@@ -126,11 +200,11 @@
             <div class="info-box">
                 <h3><i class="fa-solid fa-users"></i> Membres du groupe</h3>
                 <ul>
-                    <li>BETSHINDO NDJAMBE Christenvie</li>
-                    <li>DINALUWA DI-DINALUWA Fordi-Omega</li>
-                    <li>KABONGO TSHIATA Etienne</li>
-                    <li>LUVUNU TAWABA Glodi</li>
                     <li>MOMBESA GLODI Glodi</li>
+                    <li>KABONGO TSHIATA Etienne</li>
+                    <li>DINALUWA DI-DINALUWA Fordi-Omega</li>
+                    <li>LUVUNU TAWABA Glodi</li>
+                    <li>BETSHINDO NDJAMBE Christenvie</li>
                 </ul>
             </div>
 
@@ -138,7 +212,7 @@
                 <h3><i class="fa-solid fa-user-tie"></i> Encadrement</h3>
                 <ul>
                     <li>Professeur KASENGEDIA MOTUMBE</li>
-                    <li>Assistant Junior KANINGINI BOPE Christian</li>
+                    <li>Assistant Junior KANINGINI</li>
                 </ul>
             </div>
 
@@ -164,45 +238,39 @@
                     <li>Kibana</li>
                 </ul>
             </div>
+
             <div class="info-box">
                 <h3><i class="fa-solid fa-user-lock"></i> Comptes de démonstration</h3>
 
                 <p>
-                    Les identifiants suivants peuvent être utilisés
-                    pour tester les différentes fonctionnalités de la plateforme IAM.
+                    Les identifiants suivants peuvent être utilisés pour tester les fonctionnalités de la plateforme IAM.
                 </p>
 
-                <ul>
-                    <li>
-                        <strong>Administrateur</strong><br>
-                        Login : <code>admin_iam</code><br>
-                        Mot de passe : <code>admin123</code>
-                    </li>
+                <div class="demo-account">
+                    <strong>Administrateur</strong><br>
+                    Login : <code>admin_iam</code><br>
+                    Mot de passe : <code>Admin12345</code>
+                </div>
 
-                    <br>
+                <div class="demo-account">
+                    <strong>Utilisateur standard</strong><br>
+                    Login : <code>user_iam</code><br>
+                    Mot de passe : <code>User12345</code>
+                </div>
 
-                    <li>
-                        <strong>Utilisateur standard</strong><br>
-                        Login : <code>user_iam</code><br>
-                        Mot de passe : <code>user123</code>
-                    </li>
-
-                    <br>
-
-                    <li>
-                        <strong>Auditeur</strong><br>
-                        Login : <code>auditor_iam</code><br>
-                        Mot de passe : <code>audit123</code>
-                    </li>
-                </ul>
+                <div class="demo-account">
+                    <strong>Auditeur</strong><br>
+                    Login : <code>auditor_iam</code><br>
+                    Mot de passe : <code>Audit12345</code>
+                </div>
             </div>
 
             <div class="info-box">
                 <h3><i class="fa-brands fa-github"></i> Code source</h3>
                 <p>Le code source du projet est disponible sur GitHub.</p>
 
-                <a href="https://github.com/Glodi-angelot/iam-platform.git" 
-                   target="_blank" 
+                <a href="https://github.com/Glodi-angelot/iam-platform.git"
+                   target="_blank"
                    class="github-link">
                     <i class="fa-brands fa-github"></i>
                     Voir le dépôt GitHub
