@@ -52,3 +52,6 @@ def logout_view(request):
 
 def access_denied_view(request):
     return render(request, "accounts/access_denied.html")
+
+def about(request):
+    return render(request, "about.html")

@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+    .about-section {
+        min-height: 80vh;
+        padding: 60px 8%;
+        background: linear-gradient(135deg, #eef4ff, #f8fafc);
+    }
+
+    .about-card {
+        max-width: 1100px;
+        margin: auto;
+        background: white;
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+        border: 1px solid #e2e8f0;
+    }
+
+    .about-header {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+    .about-header i {
+        font-size: 48px;
+        color: #2563eb;
+        margin-bottom: 15px;
+    }
+
+    .about-header h1 {
+        font-size: 42px;
+        color: #0f172a;
+        margin-bottom: 10px;
+    }
+
+    .about-header p {
+        color: #64748b;
+        font-size: 18px;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    .info-box {
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 22px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .info-box h3 {
+        color: #0f172a;
+        margin-bottom: 12px;
+        font-size: 20px;
+    }
+
+    .info-box p,
+    .info-box li {
+        color: #475569;
+        line-height: 1.7;
+    }
+
+    .info-box ul {
+        padding-left: 20px;
+        margin: 0;
+    }
+
+    .badge {
+        display: inline-block;
+        background: #2563eb;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 50px;
+        font-weight: 700;
+        margin-top: 10px;
+    }
+
+    .github-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 15px;
+        padding: 12px 20px;
+        background: #0f172a;
+        color: white;
+        text-decoration: none;
+        border-radius: 12px;
+        font-weight: 700;
+    }
+
+    .github-link:hover {
+        background: #1e293b;
+    }
+</style>
+
+<section class="about-section">
+    <div class="about-card">
+
+        <div class="about-header">
+            <i class="fa-solid fa-shield-halved"></i>
+            <h1>À propos du projet</h1>
+            <p>Plateforme IAM sécurisée avec journalisation et analyse via Kibana</p>
+            <span class="badge">Groupe 42</span>
+        </div>
+
+        <div class="info-grid">
+
+            <div class="info-box">
+                <h3><i class="fa-solid fa-book"></i> Sujet</h3>
+                <p>
+                    <strong>Plateforme IAM Sécurisée :</strong><br>
+                    Journalisation et analyse des activités utilisateurs via Elasticsearch et Kibana.
+                </p>
+            </div>
+
+            <div class="info-box">
+                <h3><i class="fa-solid fa-users"></i> Membres du groupe</h3>
+                <ul>
+                    <li>BETSHINDO NDJAMBE Christenvie</li>
+                    <li>DINALUWA DI-DINALUWA Fordi-Omega</li>
+                    <li>KABONGO TSHIATA Etienne</li>
+                    <li>LUVUNU TAWABA Glodi</li>
+                    <li>MOMBESA GLODI Glodi</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h3><i class="fa-solid fa-user-tie"></i> Encadrement</h3>
+                <ul>
+                    <li>Professeur KASENGEDIA MOTUMBE</li>
+                    <li>Assistant Junior KANINGINI BOPE Christian</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h3><i class="fa-solid fa-building-columns"></i> Institution</h3>
+                <p>
+                    Université de Kinshasa<br>
+                    Faculté des Sciences et Technologies<br>
+                    Département d’Informatique<br>
+                    Master 1 Informatique<br>
+                    Année académique 2025–2026
+                </p>
+            </div>
+
+            <div class="info-box">
+                <h3><i class="fa-solid fa-gears"></i> Technologies utilisées</h3>
+                <ul>
+                    <li>Django</li>
+                    <li>SQLite</li>
+                    <li>Docker</li>
+                    <li>Filebeat</li>
+                    <li>Elasticsearch</li>
+                    <li>Kibana</li>
+                </ul>
+            </div>
+            <div class="info-box">
+                <h3><i class="fa-solid fa-user-lock"></i> Comptes de démonstration</h3>
+
+                <p>
+                    Les identifiants suivants peuvent être utilisés
+                    pour tester les différentes fonctionnalités de la plateforme IAM.
+                </p>
+
+                <ul>
+                    <li>
+                        <strong>Administrateur</strong><br>
+                        Login : <code>admin_iam</code><br>
+                        Mot de passe : <code>admin123</code>
+                    </li>
+
+                    <br>
+
+                    <li>
+                        <strong>Utilisateur standard</strong><br>
+                        Login : <code>user_iam</code><br>
+                        Mot de passe : <code>user123</code>
+                    </li>
+
+                    <br>
+
+                    <li>
+                        <strong>Auditeur</strong><br>
+                        Login : <code>auditor_iam</code><br>
+                        Mot de passe : <code>audit123</code>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h3><i class="fa-brands fa-github"></i> Code source</h3>
+                <p>Le code source du projet est disponible sur GitHub.</p>
+
+                <a href="https://github.com/Glodi-angelot/iam-platform.git" 
+                   target="_blank" 
+                   class="github-link">
+                    <i class="fa-brands fa-github"></i>
+                    Voir le dépôt GitHub
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
